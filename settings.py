@@ -1,8 +1,8 @@
 # Constants Used for the Project
 WIDTH  = 1280 # Window Width
-HEIGHT = 720 # Window Height
+HEIGHT = 720  # Window Height
 
-FPS = 60
+FPS = 80
 # For Points
 RADIUS = 10
 
@@ -12,6 +12,6 @@ WHITE = (255, 255, 255)
 RED   = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE  = (0, 0, 255)
-
+CYAN  = (0, 255, 255)
 
 
