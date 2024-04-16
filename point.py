@@ -9,9 +9,12 @@ class Point():
         self.y = y
         self.color = color
         self.radius = radius
+        self.rect = pygame.Rect(self.x, self.y, self.radius*2, self.radius*2)
 
-def draw_point(surface: pygame.Surface, point: Point) -> None:
-    pygame.gfxdraw.filled_circle(surface, point.x, point.y, point.radius, point.color)     
+
+        
+def draw_point(surface: pygame.Surface, point: Point) -> pygame.Rect:
+    pygame.draw.circle(surface, point.color, (point.x, point.y), point.radius)
 
 
 def draw_line(surface: pygame.Surface, point1: Point, point2: Point, line_color: tuple[int, int, int]):
