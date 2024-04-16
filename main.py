@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from point import Point, draw_point, draw_line
+from point import Point, draw_point, draw_line, draw_points
 from sys import exit
 
 
@@ -17,8 +17,9 @@ def main() -> None:
     p3 = Point(400, 200, BLUE)
     selected = None
 
-    points = [p1, p2, p3]
-    curve_points = []
+    points: list[Point] = [p1, p2, p3]
+    curve_points: list[Point] = []
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -31,7 +32,6 @@ def main() -> None:
                     for num, point in enumerate(points):
                         if point.rect.collidepoint(event.pos):
                             selected = num
-                            print(f"Selected Point: {selected}")
 
 
             elif event.type == pygame.MOUSEMOTION:
@@ -49,29 +49,20 @@ def main() -> None:
         
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1 and selected != None:
-                    print(f"Released Point: {selected}")
                     selected = None
 
 
         screen.fill(BLACK)
-        
-        draw_screen(screen, points, curve_points)
+       
+        draw_points(screen, points)
+        draw_points(screen, curve_points)
+
+
         pygame.display.update()
         clock.tick(FPS)
         
 
-def draw_screen(screen, points, curve_points):
-   # for i in range(1, len(points)):
-    #    draw_line(screen, points[i - 1], points[i], BLUE)
-
-    for i in range(len(points)):
-        points[i].rect = draw_point(screen, points[i])
-
-    for i in range(len(curve_points)):
-        curve_points[i].rect = draw_point(screen, curve_points[i])
-
-    
-def B(p1, p2, p3, t=0.5) -> Point:
+def B(p1, p2, p3) -> Point:
     xp = 0
     yp = 0
     x1, y1 = p1.x, p1.y
@@ -82,6 +73,8 @@ def B(p1, p2, p3, t=0.5) -> Point:
     yp = y2 + (1-t)**2 * (y1 - y2) + t**2 * (y3 - y2)
     
     return Point(xp, yp, RED)
+
+
 
 if __name__ == "__main__":
     main()
