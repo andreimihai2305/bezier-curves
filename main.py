@@ -12,9 +12,8 @@ def main() -> None:
     
     p1 = Point(50, 50, RED)
     p2 = Point(100, 100, GREEN)
-    print(p1.rect)
-    print(p2.rect)
-    points= [p1, p2]
+    p3 = Point(400, 200, BLUE)
+    points= [p1, p2, p3]
     selected = None
     while True:
         for event in pygame.event.get():
@@ -27,7 +26,6 @@ def main() -> None:
                 if event.button == 1:
                     for num, point in enumerate(points):
                         if point.rect.collidepoint(event.pos):
-                            print(True)
                             selected = num
                             print(f"Selected Point: {selected}")
 
@@ -37,25 +35,31 @@ def main() -> None:
                     points[selected].x += event.rel[0]
                     points[selected].y += event.rel[1]
 
+
+        
             elif event.type == pygame.MOUSEBUTTONUP:
-                print(f"Released Point: {selected}")
-                selected = None
+                if event.button == 1 and selected != None:
+                    print(f"Released Point: {selected}")
+                    selected = None
+
 
         screen.fill(BLACK)
-
-        draw_line(screen, p1, p2, BLUE)
-        #draw_screen(screen, points)
-        draw_point(screen, points[0])
-        draw_point(screen, points[1])
+        
+        draw_screen(screen, points)
+        
         pygame.display.update()
         clock.tick(FPS)
         
 
 def draw_screen(screen, points):
-    for i in range(len(points) - 1):
-        draw_point(screen, points[i])
+    for i in range(1, len(points)):
+        draw_line(screen, points[i - 1], points[i], BLUE)
 
-    draw_point(screen, points[-1])
+    for i in range(len(points)):
+        points[i].rect = draw_point(screen, points[i])
+        
+    
+
 
 if __name__ == "__main__":
     main()
