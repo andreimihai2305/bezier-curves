@@ -1,17 +1,26 @@
+from dataclasses import dataclass
 from settings import * 
 import pygame
 
 
+#class Point():
+#    def __init__(self, x: int, y: int, color: tuple[int, int, int], radius: int = RADIUS) -> None:
+#        self.x = x
+#        self.y = y
+#        self.color = color
+#        self.radius = radius
+#        self.rect = None
+#
+
+@dataclass
 class Point():
-    def __init__(self, x: int, y: int, color: tuple[int, int, int], radius: int = RADIUS) -> None:
-        self.x = x
-        self.y = y
-        self.color = color
-        self.radius = radius
-        self.rect = None
+    x: int
+    y: int
+    color: tuple[int, int, int]
+    radius: int = RADIUS
+    rect: pygame.Rect = None
 
 
-        
 def draw_point(surface: pygame.Surface, point: Point) -> pygame.Rect:
     return pygame.draw.circle(surface, point.color, (point.x, point.y), point.radius)
 
