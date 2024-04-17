@@ -12,13 +12,14 @@ import pygame
 #        self.rect = None
 #
 
+
 @dataclass
 class Point():
-    x: int
-    y: int
-    color: tuple[int, int, int]
-    radius: int = RADIUS
-    rect: pygame.Rect = None
+    x      : int
+    y      : int
+    color  : tuple[int, int, int]
+    radius : int = RADIUS
+    rect   : pygame.Rect = None
 
 
 def draw_point(surface: pygame.Surface, point: Point) -> pygame.Rect:
@@ -27,10 +28,10 @@ def draw_point(surface: pygame.Surface, point: Point) -> pygame.Rect:
 
 def draw_line(surface: pygame.Surface, point1: Point, point2: Point, line_color: tuple[int, int, int]):
     pygame.draw.aaline(surface, line_color, (point1.x, point1.y), (point2.x, point2.y))
-
         
 
 def draw_points(surface: pygame.Surface, points: list[Point]) -> None:
     for point in points:
         point.rect = draw_point(surface, point)
 
+        

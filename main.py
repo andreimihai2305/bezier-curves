@@ -4,8 +4,8 @@ from point import Point, draw_point, draw_line, draw_points
 from sys import exit
 
 
-
 pygame.init()
+
 
 def main() -> None:
     # Game State
@@ -19,13 +19,12 @@ def main() -> None:
     p4 = Point(800, 500, GREEN)
     p5 = Point(500, 600, BLUE)
 
-    selected = None
-
     points: list[Point] = [p1, p2, p3, p4, p5]
     curve_points1: list[Point] = compute_curve_points(p1, p2, p3)
     curve_points2: list[Point] = compute_curve_points(p3, p4, p5)  
     
-
+    selected = None
+    
     # Main Game Loop
     while True:
         for event in pygame.event.get():
@@ -40,15 +39,12 @@ def main() -> None:
                         if point.rect.collidepoint(event.pos):
                             selected = num
 
-
             elif event.type == pygame.MOUSEMOTION:
                 if selected != None:
                     points[selected].x += event.rel[0]
                     points[selected].y += event.rel[1]
                     curve_points1 = compute_curve_points(p1, p2, p3)
                     curve_points2 = compute_curve_points(p3, p4, p5)
-
-
         
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
@@ -98,3 +94,5 @@ def draw_curve(screen, start, end, points):
 
 if __name__ == "__main__":
     main()
+
+

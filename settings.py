@@ -1,8 +1,8 @@
 # Constants Used for the Project
 WIDTH  = 1280 # Window Width
 HEIGHT = 720  # Window Height
-
 FPS = 80
+
 # For Points
 RADIUS = 10
 
