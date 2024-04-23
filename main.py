@@ -15,11 +15,11 @@ def main() -> None:
     clock = pygame.time.Clock()
     
 
-    points = create_origin_points(3)
+    points = create_origin_points(2)
 
     control_points = create_control_points(2)
-    curve_points = compute_curve_points(points, control_points)
-
+    #curve_points = compute_curve_points(points, control_points)
+    curve_points = [cubic_B(points[0], control_points[0], control_points[1], points[1], t / 50) for t in range(50)]
     all_points = points + control_points
     selected = None
     
@@ -45,7 +45,8 @@ def main() -> None:
                     if all_points[selected].y + event.rel[1] >= 0 and all_points[selected].y + event.rel[1] <= HEIGHT:
                         all_points[selected].y += event.rel[1]
                     
-                    curve_points = compute_curve_points(points, control_points) 
+                    curve_points = [cubic_B(points[0], control_points[0], control_points[1], points[1], t / 100) for t in range(100)]
+                    #curve_points = compute_curve_points(points, control_points) 
 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
@@ -54,7 +55,8 @@ def main() -> None:
 
         screen.fill(BLACK)
         
-        draw_curves(screen, points, curve_points)
+    #    draw_curves(screen, points, curve_points)
+        draw_curve(screen, points[0], points[1], curve_points)
         draw_points(screen, points)
         draw_points(screen, control_points)
         pygame.display.update()
@@ -83,8 +85,6 @@ def create_control_points(num: int) -> list[Point]:
 
 
 def B(start, control, end, t) -> Point:
-    xp = 0
-    yp = 0
     x0, y0 = start.x, start.y
     x1, y1 = control.x, control.y
     x2, y2 = end.x, end.y
@@ -92,6 +92,18 @@ def B(start, control, end, t) -> Point:
     xp = x1 + (1-t)**2 * (x0 - x1) + t**2 * (x2 - x1)
     yp = y1 + (1-t)**2 * (y0 - y1) + t**2 * (y2 - y1)
     
+    return Point(xp, yp, RED)
+
+
+def cubic_B(start, control_1, control_2, end, t) -> Point:
+    x0, y0 = start.x, start.y
+    x1, y1 = control_1.x, control_1.y
+    x2, y2 = control_2.x, control_2.y
+    x3, y3 = end.x, end.y
+
+    xp = (((1 - t) ** 3) * x0) + (3 * ((1 - t) ** 2) * t * x1) + (3 * (1 - t) * t ** 2 * x2) + ((t ** 3) * x3 ) 
+    yp = (((1 - t) ** 3) * y0) + (3 * ((1 - t) ** 2) * t * y1) + (3 * (1 - t) * t ** 2 * y2) + ((t ** 3) * y3 ) 
+
     return Point(xp, yp, RED)
 
 
