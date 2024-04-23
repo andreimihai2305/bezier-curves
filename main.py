@@ -15,8 +15,9 @@ def main() -> None:
     clock = pygame.time.Clock()
     
 
-    points = create_origin_points(4)
-    control_points = create_control_points(3)
+    points = create_origin_points(3)
+
+    control_points = create_control_points(2)
     curve_points = compute_curve_points(points, control_points)
 
     all_points = points + control_points
@@ -38,8 +39,12 @@ def main() -> None:
 
             elif event.type == pygame.MOUSEMOTION:
                 if selected != None:
-                    all_points[selected].x += event.rel[0]
-                    all_points[selected].y += event.rel[1]
+                    if all_points[selected].x + event.rel[0] >= 0 and all_points[selected].x + event.rel[0] <= WIDTH:
+                        all_points[selected].x += event.rel[0]
+                    
+                    if all_points[selected].y + event.rel[1] >= 0 and all_points[selected].y + event.rel[1] <= HEIGHT:
+                        all_points[selected].y += event.rel[1]
+                    
                     curve_points = compute_curve_points(points, control_points) 
 
             elif event.type == pygame.MOUSEBUTTONUP:
@@ -98,8 +103,8 @@ def compute_curve_points(origin_points: list[Point], control_points: list[Point]
 
     for i in range(len(origin_points) - 1):
         current_points = []
-        for j in range(20):
-            t = j / 20
+        for j in range(50):
+            t = j / 50
                               
             start = origin_points[i]
             control = control_points[i]
@@ -115,11 +120,11 @@ def compute_curve_points(origin_points: list[Point], control_points: list[Point]
 
 def draw_curve(screen: pygame.Surface, start: Point, end: Point, curve_points: list[Point]) -> None:
 
-    draw_line(screen, start, curve_points[0], RED)
+    draw_line(screen, start, curve_points[0], CYAN)
     for i in range(len(curve_points) - 1):
         draw_line(screen, curve_points[i], curve_points[i + 1], CYAN)
 
-    draw_line(screen, curve_points[-1], end, GREEN)
+    draw_line(screen, curve_points[-1], end, CYAN)
 
 
 
